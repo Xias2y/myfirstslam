@@ -7,6 +7,6 @@ namespace Slam
 	{
 		TimeStamp time_stamp;
 		Eigen::Quaterniond rotation;//四元数表示旋转
-		Eigen::Vector3d position;//位置
+		Eigen::Vector3d position;//平移
 	};
 }

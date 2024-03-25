@@ -5,6 +5,7 @@ namespace Slam
 {
 	using PCLPointCloud = pcl::PointCloud<Point>;//定义类型别名
 	using PCLPointCloudPtr = PCLPointCloud::Ptr;//智能指针
+	using PCLPointCloudConstPtr = PCLPointCloud::ConstPtr;//外部对局部地图只读
 	struct PointCloud
 	{
 		using Ptr = std::shared_ptr<PointCloud>;//指向此结构体的共享指针

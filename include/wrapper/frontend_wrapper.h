@@ -1,15 +1,20 @@
 #pragma once
-#include "slam/modules/frondend/frondend.h"
-#include "ros/ros.h"
-#include "sensor_msgs/PointCloud2.h"
-#include "sensor_msgs/Imu.h"
+#include "slam/globaldefine.h"
+#include "slam/modules/frontend/frontend.h"
 #include "nav_msgs/Odometry.h"
+#include "nav_msgs/Path.h"
+#include "ros/ros.h"
+#include "sensor_msgs/Imu.h"
+#include "sensor_msgs/PointCloud2.h"
+#include "wrapper/frontend_wrapper.h"
 #include "wrapper/lidar_process/avia_process.h"
+#include "wrapper/lidar_process/velodyne_process.h"
 
 namespace ROSNoetic
 {
 	enum LIDAR_TYPE {
-		AVIA = 0;//定义不同雷达类型
+		AVIA = 0;
+		VELO = 1;
 	};
 	class FrontEndWrapper
 	{

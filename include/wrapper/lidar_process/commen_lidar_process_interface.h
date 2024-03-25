@@ -3,7 +3,7 @@
 #include <sensor_msgs/PointCloud2.h>//ros中的消息类型
 #include "pcl_conversions/pcl_conversions.h"//ros和pcl数据类型转换
 
-namespace Slam
+namespace ROSNoetic
 {
 	class CommonLidarProcessInterface
 	{

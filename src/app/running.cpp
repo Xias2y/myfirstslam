@@ -1,4 +1,4 @@
-#include "slam/wrapper/frontend_wrapper.h"
+#include "wrapper/frontend_wrapper.h"
 
 int main(int argc, char* argv[])//ros≥ı ºªØ
 {

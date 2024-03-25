@@ -28,6 +28,8 @@ namespace ROSNoetic
 	class AVIAProcess : public CommonLidarProcessInterface
 	{
 	public:
+		AVIAProcess(/* args */) {}
+		~AVIAProcess() {}
 		bool process(const sensor_msgs::PointCloud2& msg, Slam::PointCloud& cloud) {
 			pcl::PointCloud<avia_ros::Point> avia_cloud;
 			pcl::fromROSMsg(msg, avia_cloud);
