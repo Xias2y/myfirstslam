@@ -15,7 +15,8 @@ namespace ROSNoetic
 		front_end_ptr = std::make_shared<Slam::FrontEnd>(CONFIG_DIR + config_file_name, "front_end");
 
 		//发布者和订阅者（100表示消息队列的大小）
-		cloud_subscriber = nh.subscriber(lidar_topic, 100, &FrontEndWrapper::lidarCloudMsgCallBack, this);
+		cloud_subscriber = 
+			nh.subscribe(lidar_topic, 100, &FrontEndWrapper::lidarCloudMsgCallBack, this);
 		imu_subscriber = nh.subscribe(imu_topic, 100, &FrontEndWrapper::imuMsgCallBack, this);
 
 		//读取雷达类型

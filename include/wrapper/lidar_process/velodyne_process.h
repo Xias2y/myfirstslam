@@ -37,7 +37,7 @@ POINT_CLOUD_REGISTER_POINT_STRUCT(velodyne_ros::Point,
             for (auto&& p : rs_cloud)
             {
                 double point_time = p.time + end_time;
-                IESKFSlam::Point point;
+                Slam::Point point;
                 point.x = p.x;
                 point.y = p.y;
                 point.z = p.z;

@@ -14,7 +14,7 @@ namespace ROSNoetic
 {
 	enum LIDAR_TYPE {
 		AVIA = 0,
-		VELO = 1;
+		VELO = 1
 	};
 	class FrontEndWrapper
 	{
