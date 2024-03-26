@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <yaml-cpp/yaml.h>
-#include "lib/colorful_terminal.hpp"
+#include "colorful_terminal/colorful_terminal.hpp"
 
 namespace Slam{
 	class ModuleBase
