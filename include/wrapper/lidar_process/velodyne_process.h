@@ -27,7 +27,7 @@ POINT_CLOUD_REGISTER_POINT_STRUCT(velodyne_ros::Point,
     {
     private:
     public:
-        bool process(const sensor_msgs::PointCloud2& msg, IESKFSlam::PointCloud& cloud) {
+        bool process(const sensor_msgs::PointCloud2& msg, Slam::PointCloud& cloud) {
             pcl::PointCloud<velodyne_ros::Point> rs_cloud;
             pcl::fromROSMsg(msg, rs_cloud);
             cloud.cloud_ptr->clear();

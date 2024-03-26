@@ -1,6 +1,5 @@
-//应该是无人机的配置文件
 #pragma once
-#include "commen_lidar_process_interface.h"
+#include "common_lidar_process_interface.h"
 
 //PCL点云注册avia_ros类型
 namespace avia_ros {

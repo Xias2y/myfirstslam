@@ -25,8 +25,10 @@ namespace Slam
 			Eigen::Vector3d pos; // Î»ÖÃ
 			Eigen::Quaterniond rot; // Ðý×ª
 			IMUPose6d(double time_ = 0, Eigen::Vector3d a_ = Eigen::Vector3d::Zero(),
-				Eigen::Vector3d av_ = Eigen::Vector3d::Zero(), Eigen::Vector3d v_ = Eigen::Vector3d::Zero(),
-				Eigen::Vector3d p_ = Eigen::Vector3d::Zero(), Eigen::Vector3d q_ = Eigen::Quaterniond::Identity())
+				Eigen::Vector3d av_ = Eigen::Vector3d::Zero(),
+				Eigen::Vector3d v_ = Eigen::Vector3d::Zero(),
+				Eigen::Vector3d p_ = Eigen::Vector3d::Zero(), 
+				Eigen::Quaterniond q_ = Eigen::Quaterniond::Identity())
 			{
 				time = time_;
 				acc = a_;

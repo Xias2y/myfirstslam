@@ -7,8 +7,16 @@ namespace Slam
 {
 	class LIOZHModel :public IESKF::CalcZHInterface
 	{
+	private:
+		const int NEAR_POINTS_NUM = 5;//临近点数量
+		//坐标、法向量、距离     
+		using loss_type = triple<Eigen::Vector3d, Eigen::Vector3d, double>;
+		KDTreeConstPtr global_map_kdtree_ptr;
+		PCLPointCloudPtr current_cloud_ptr;
+		PCLPointCloudConstPtr local_map_ptr;
+
 	public:
-		using Ptr = std::shared_ptr<LIOZHModel>;
+	using Ptr = std::shared_ptr<LIOZHModel>;
 		void prepare(KDTreeConstPtr kd_tree, PCLPointCloudPtr current_cloud, PCLPointCloudConstPtr local_map) {
 			global_map_kdtree_ptr = kd_tree;
 			current_cloud_ptr = current_cloud;
@@ -21,10 +29,10 @@ namespace Slam
 			std::vector<loss_type> loss_real;
 			int  vaild_points_num = 0;
 
-#ifdef MP_EN //根据MP_EN的定义来决定是否使用多线程计算
-			omp_set_num_threads(MP_PROC_NUM);//设置线程数量
-#pragma omp parallel for//多线程运行for循环
-#endif
+			#ifdef MP_EN //根据MP_EN的定义来决定是否使用多线程计算
+				omp_set_num_threads(MP_PROC_NUM);//设置线程数量
+				#pragma omp parallel for//多线程运行for循环
+			#endif
 			/**
 			 有效点的判断
 			 1. 将当前点变换到世界系下
@@ -95,14 +103,5 @@ namespace Slam
 			}
 			return true;
 		}
-	};
-
-	private:
-		const int NEAR_POINTS_NUM = 5;//临近点数量
-		//坐标、法向量、距离     
-		using loss_type = triple<Eigen::Vector3d, Eigen::Vector3d, double>;
-		KDTreeConstPtr global_map_kdtree_ptr;
-		PCLPointCloudPtr current_cloud_ptr;
-		PCLPointCloudConstPtr local_map_ptr;
 	};
 }

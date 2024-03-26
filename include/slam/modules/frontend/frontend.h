@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include "slam/globaldefine.h"
 #include "slam/type/imu.h"
 #include "slam/type/base_type.h"
