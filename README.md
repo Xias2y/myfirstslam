@@ -58,13 +58,13 @@
 	如果你的配置满足fast-lio系列算法，可以成功编译运行，则不需要额外进行配置
 
 ## Ubuntu和ros
-	Ubuntu >= 16.04
- 
- 	PCL >= 1.8
+Ubuntu >= 16.04
+  
+PCL >= 1.8
 
-  	Eigen >= 3.3.4
+Eigen >= 3.3.4
 
-   	livox_ros_driver支持
+livox_ros_driver支持
 ## 工程构建
    	cd ~/$A_ROS_DIR$/src
   	git clone https://github.com/Xias2y/myfirstslam.git
@@ -75,7 +75,7 @@
   	catkin_make
    	 
 ## 运行
-        roslaunch slam avia.launch
-   	rosbag play YOUR_DOWNLOADED.bag
+	roslaunch slam avia.launch
+	rosbag play YOUR_DOWNLOADED.bag
 
 
