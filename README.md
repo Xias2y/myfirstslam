@@ -16,43 +16,43 @@
  
  ├── include  头文件
  
- │      &emsp;  ├── slam  算法部分
+ │      &emsp;&emsp;  ├── slam  算法部分
  
- │        │         ├── math  计算
+ │     &emsp;&emsp;   │    &emsp;&emsp;     ├── math  计算
  
- │        │         ├── modules  模块
+ │     &emsp;&emsp;   │      &emsp;&emsp;   ├── modules  模块
  
- │        │         │         ├──frontbackPropagate  向前/向后传播
+ │      &emsp;&emsp;  │      &emsp;&emsp;   │     &emsp;&emsp;    ├──frontbackPropagate  向前/向后传播
  
- │        │         │         ├──frontend  前端
+ │     &emsp;&emsp;   │     &emsp;&emsp;    │     &emsp;&emsp;    ├──frontend  前端
  
- │        │         │         ├──ieskf  滤波
+ │      &emsp;&emsp;  │      &emsp;&emsp;   │      &emsp;&emsp;   ├──ieskf  滤波
 
- │        │         │         └──map  地图管理
+ │      &emsp;&emsp;  │       &emsp;&emsp;  │     &emsp;&emsp;    └──map  地图管理
 
- │        │         └── type
+ │      &emsp;&emsp;  │      &emsp;&emsp;   └── type
  
- │        └── wrapper  ros部分
+ │      &emsp;&emsp;  └── wrapper  ros部分
  
- │                 └── lidar_process  雷达适配
+ │               &emsp;&emsp;  └── lidar_process  雷达适配
  
  └── src  实现
  
- │       ├── app
+ │    &emsp;&emsp;   ├── app
      
- │       │        └── ros_humble
+ │     &emsp;&emsp;  │     &emsp;&emsp;   └── ros_humble
  
- │       ├── ieskf
+ │    &emsp;&emsp;   ├── ieskf
      
- │       │         ├──frontbackPropagate
+ │     &emsp;&emsp;  │      &emsp;&emsp;   ├──frontbackPropagate
                
- │       │         ├──frontend
+ │    &emsp;&emsp;   │      &emsp;&emsp;  ├──frontend
           
- │       │         ├──ieskf
+ │     &emsp;&emsp;  │     &emsp;&emsp;    ├──ieskf
      
- │       │         └──map
+ │     &emsp;&emsp;  │      &emsp;&emsp;   └──map
      
- │       └── wrapper
+ │    &emsp;&emsp;   └── wrapper
 	       
 # 使用说明
 如果你的配置满足fast-lio系列算法，可以成功编译运行，则不需要额外进行配置
