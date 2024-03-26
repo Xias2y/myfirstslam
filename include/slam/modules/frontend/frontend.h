@@ -8,7 +8,7 @@
 #include "slam/modules/ieskf/ieskf.h"
 #include "slam/modules/map/rect_map_manager.h"
 #include "slam/modules/frontbackPropagate/frontback_propagate.h"
-#include "ieskf_slam/modules/frontend/lio_zh_model.h"
+#include "slam/modules/frontend/lio_zh_model.h"
 
 namespace Slam
 {

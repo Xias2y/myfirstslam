@@ -95,7 +95,7 @@ namespace Slam
 			}
 			return true;
 		}
-	}；
+	};
 
 	private:
 		const int NEAR_POINTS_NUM = 5;//临近点数量

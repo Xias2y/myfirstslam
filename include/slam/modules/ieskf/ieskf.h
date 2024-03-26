@@ -35,7 +35,7 @@ namespace Slam
         std::shared_ptr<CalcZHInterface> calc_zh_ptr;
 
     private:
-        State18 x;
+        State18 X;
         Eigen::Matrix<double, 18, 18> P;//状态协方差矩阵
         Eigen::Matrix<double, 12, 12> Q;//过程噪声协方差矩阵
         int iter_times = 10;
@@ -43,7 +43,7 @@ namespace Slam
     public:
         IESKF(const std::string& config_path, const std::string& prefix);
         ~IESKF();
-        void predict(const IMU& imu, double dt);
+        void predict(IMU imu, double dt);
         bool update();
         //获取系统状态X
         const State18& getX();

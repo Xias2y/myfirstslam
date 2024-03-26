@@ -32,7 +32,7 @@ namespace Slam
 
 	}
 
-	void IESKF::predict(const IMU& imu, double dt)// imu time
+	void IESKF::predict(IMU imu, double dt)// imu time
 	{
 		imu.acceleration -= X.ba;
 		imu.gyroscope -= X.bg;

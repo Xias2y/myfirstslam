@@ -9,7 +9,7 @@ namespace Slam
 	{
 		double lidar_begin_time;
 		double lidar_end_time;
-		std::deque<imu> imus;
+		std::deque<IMU> imus;
 		PointCloud cloud;
 	};
 }
