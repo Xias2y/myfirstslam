@@ -12,7 +12,8 @@ namespace ROSNoetic
 		//使用CONFIG_DIR定义的路径作为配置文件的目录
 		//CONFIG_DIR在之前的globaldefine里，即/config/
 		//创建了一个指向 Slam::FrontEnd 类型对象的共享指针，并将其赋值给了 front_end_ptr
-		front_end_ptr = std::make_shared<Slam::FrontEnd>(CONFIG_DIR + config_file_name, "front_end");
+		front_end_ptr = 
+			std::make_shared<Slam::FrontEnd>(CONFIG_DIR + config_file_name, "front_end");
 
 		//发布者和订阅者（100表示消息队列的大小）
 		cloud_subscriber = 

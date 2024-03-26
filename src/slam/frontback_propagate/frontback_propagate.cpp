@@ -14,15 +14,8 @@ namespace Slam
 
     //  先递推imu，然后记录下递推后的结果，完成递推的结果后，再对每个点进行去畸变
     void FrontbackPropagate::propagate(MeasureGroup& mg, IESKF::Ptr ieskf_ptr) {
-        /*
-            lambda表达式：
-            基本形式是 [] (parameters) { body }
-            其中 [] 捕获列表用于捕获外部变量（可选）
-            parameters 是Lambda函数的参数列表
-            body 是Lambda函数的主体
-        */
-        std::sort(mg.cloud.cloud_ptr->points.begin(), mg.cloud.cloud_ptr->points.end(), [](Point x, Point y) {
-            return x.offset_time < y.offset_time;});
+        std::sort(mg.cloud.cloud_ptr->points.begin(), mg.cloud.cloud_ptr->points.end(), 
+            [](Point x, Point y) {return x.offset_time < y.offset_time;});
         //  记录每一步递推的结果
         std::vector<IMUPose6d> IMUpose;
         auto v_imu = mg.imus;
@@ -35,13 +28,14 @@ namespace Slam
         auto imu_state = ieskf_ptr->getX();
         IMUpose.clear();
         //  记录递推起始时刻的状态
-        IMUpose.emplace_back(0.0, acc_s_last, angvel_last, imu_state.velocity, imu_state.position, imu_state.rotation);//  尾部创建新元素
+        IMUpose.emplace_back(0.0, acc_s_last, angvel_last, imu_state.velocity, imu_state.position, 
+                            imu_state.rotation);//  尾部创建新元素
         Eigen::Vector3d angvel_avr, acc_avr, acc_imu, vel_imu, pos_imu;
         Eigen::Matrix3d R_imu;
         double dt = 0;
         IMU in;
         //  开始递推
-        for (auto it_imu = mg.imus.begin(); it_imu < (mg.imus.end() - 1); it_imu++)
+        for (auto it_imu = v_imu.begin(); it_imu < (v_imu.end() - 1); it_imu++)
         {
             //  取两帧imu
             auto&& head = *(it_imu);
@@ -77,7 +71,8 @@ namespace Slam
             }
             double&& offs_t = tail.time_stamp.sec() - pcl_beg_time;
             //  存储
-            IMUpose.emplace_back(offs_t, acc_s_last, angvel_last, imu_state.velocity, imu_state.position, imu_state.rotation);
+            IMUpose.emplace_back(offs_t, acc_s_last, angvel_last, imu_state.velocity,
+                                imu_state.position, imu_state.rotation);
         }
         //  imu频率大于雷达，一帧点云以多出来一部分imu结束，将雷达位姿预测到imu的结束时刻
         dt = pcl_end_time - imu_end_time;
@@ -109,7 +104,8 @@ namespace Slam
                 Eigen::Vector3d P_i(it_pcl->x, it_pcl->y, it_pcl->z);
                 // 这个变量不是SE(3),而是一个位置偏移。T_ei = t^i -t^C,t_i是 i时刻雷达系的位姿，t^C是扫描末尾的雷达位姿
                 // 我这里没有自己写，照抄了一部分fast-lio的代码
-                Eigen::Vector3d T_ei(pos_imu + vel_imu * dt + 0.5 * acc_imu * dt * dt - imu_state.position);
+                Eigen::Vector3d T_ei(pos_imu + vel_imu * dt + 0.5 * acc_imu * dt * dt - 
+                                    imu_state.position);
                 // 坐标系转换 P = (T_C^G)^{-1}*T_B^G*P^B
                 Eigen::Vector3d P_compensate = imu_state.rotation.conjugate() * (R_i * P_i + T_ei);
                 // 重新赋值

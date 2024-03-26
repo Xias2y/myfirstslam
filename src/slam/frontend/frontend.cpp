@@ -3,7 +3,8 @@
 namespace Slam
 {
     //在构造FrontEnd对象时，同时构造其基类ModuleBase对象，完成基类初始化
-    FrontEnd::FrontEnd(const std::string& config_file_path, const std::string& prefix) :ModuleBase(config_file_path, prefix, "Front End Module")
+    FrontEnd::FrontEnd(const std::string& config_file_path, const std::string& prefix) 
+        :ModuleBase(config_file_path, prefix, "Front End Module")
     {
         float leaf_size;
         readParam("filter_leaf_size", leaf_size, 0.5f);
@@ -15,7 +16,8 @@ namespace Slam
         extrin_t.setZero();
         if (extrin_v.size() == 9) {
             Eigen::Matrix3d extrin_r33;
-            extrin_r33 << extrin_v[0], extrin_v[1], extrin_v[2], extrin_v[3], extrin_v[4], extrin_v[5], extrin_v[6], extrin_v[7], extrin_v[8];
+            extrin_r33 << extrin_v[0], extrin_v[1], extrin_v[2], extrin_v[3], extrin_v[4], 
+                extrin_v[5], extrin_v[6], extrin_v[7], extrin_v[8];
             extrin_r = extrin_r33;
         }
         else if (extrin_v.size() == 3) {
@@ -36,7 +38,8 @@ namespace Slam
         lio_zh_model_ptr = std::make_shared<LIOZHModel>();
         ieskf_ptr->calc_zh_ptr = lio_zh_model_ptr;
         filter_point_cloud_ptr = pcl::make_shared<PCLPointCloud>();
-        lio_zh_model_ptr->prepare(map_ptr->readKDtree(), filter_point_cloud_ptr, map_ptr->getLocalMap());
+        lio_zh_model_ptr->prepare(map_ptr->readKDtree(), filter_point_cloud_ptr, 
+                                    map_ptr->getLocalMap());
 
         readParam("enable_record", enable_record, false);
         readParam("record_file_name", record_file_name, std::string("default.txt"));
@@ -55,8 +58,8 @@ namespace Slam
     void FrontEnd::addPointCloud(const PointCloud& pointcloud) {
         pointcloud_deque.push_back(pointcloud);
         pcl::transformPointCloud(*pointcloud_deque.back().cloud_ptr,
-            *pointcloud_deque.back().cloud_ptr,
-            compositeTransform(extrin_r, extrin_t).cast<float>());
+                                 *pointcloud_deque.back().cloud_ptr,
+                                 compositeTransform(extrin_r, extrin_t).cast<float>());
     }
 
     //如果获得了一帧点云和一组imu的话
@@ -65,7 +68,8 @@ namespace Slam
         if (syncMeasureGroup(mg)) {
             if (!imu_inited) {
                 map_ptr->reset();
-                map_ptr->addScan(mg.cloud.cloud_ptr, Eigen::Quaterniond::Identity(), Eigen::Vector3d::Zero());
+                map_ptr->addScan(mg.cloud.cloud_ptr, Eigen::Quaterniond::Identity(), 
+                                Eigen::Vector3d::Zero());
                 initState(mg);
                 return false;
             }
@@ -103,7 +107,8 @@ namespace Slam
         double imu_start_time = imu_deque.front().time_stamp.sec();
         double cloud_start_time = pointcloud_deque.front().time_stamp.sec();
         //一帧的起始时间就是第一个点云的时间戳，结束时间是同一线束中最后一个点云的时间戳
-        double cloud_end_time = pointcloud_deque.front().cloud_ptr->points.back().offset_time/1e9+cloud_start_time;
+        double cloud_end_time =
+            pointcloud_deque.front().cloud_ptr->points.back().offset_time / 1e9 + cloud_start_time;
 
         if (imu_end_time < cloud_end_time) {
             return false;

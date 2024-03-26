@@ -49,6 +49,6 @@ namespace ROSNoetic
 		}
 
 	private:
-
+		/*data*/
 	};
 }

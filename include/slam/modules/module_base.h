@@ -17,7 +17,8 @@ namespace Slam{
 		 * @param prefix: 前缀
 		 * @param module_name: 模块名称
 		*/
-		ModuleBase(const std::string& config_path, const std::string& prefix, const std::string& module_name = "default") {
+		ModuleBase(const std::string& config_path, const std::string& prefix,
+					const std::string& module_name = "default") {
 			name = module_name;
 			//  输出终端
 			table_out_ptr = std::make_shared<ctl::table_out>(module_name);

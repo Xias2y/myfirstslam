@@ -2,7 +2,8 @@
 
 namespace Slam
 {
-    RectMapManager::RectMapManager(const std::string& config_file_path, const std::string& prefix) :ModuleBase(config_file_path, prefix, "RectMapManager")
+    RectMapManager::RectMapManager(const std::string& config_file_path, const std::string& prefix) 
+        :ModuleBase(config_file_path, prefix, "RectMapManager")
     {
         local_map_ptr = pcl::make_shared<PCLPointCloud>();
         kdtree_ptr = pcl::make_shared<KDTree>();
@@ -16,7 +17,8 @@ namespace Slam
     }
     //（点云，姿态，位置）
     //当前帧直接加入局部地图+下采样
-    void RectMapManager::addScan(PCLPointCloudPtr curr_scan, const Eigen::Quaterniond& att_q, const Eigen::Vector3d& pos_t) {
+    void RectMapManager::addScan(PCLPointCloudPtr curr_scan, const Eigen::Quaterniond& att_q, 
+                                const Eigen::Vector3d& pos_t) {
         PCLPointCloud scan;
         pcl::transformPointCloud(*curr_scan, scan, compositeTransform(att_q, pos_t).cast<float>());
         if (local_map_ptr->empty()) {
@@ -29,16 +31,20 @@ namespace Slam
                 std::vector<int> ind;
                 std::vector<float> distance;
                 kdtree_ptr->nearestKSearch(point, 5, ind, distance);
-                if (distance[0] > map_resolution)local_map_ptr->push_back(point);
+                if (distance[0] > map_resolution) local_map_ptr->push_back(point);
             }
             int left = 0, right = local_map_ptr->size() - 1;
             while (left < right) {
-                while (left<right && abs(local_map_ptr->points[right].x - pos_t.x())>map_side_length_2
-                    && abs(local_map_ptr->points[right].y - pos_t.y()) > map_side_length_2
-                    && abs(local_map_ptr->points[right].z - pos_t.z()) > map_side_length_2)right--;
-                while (left < right && abs(local_map_ptr->points[left].x - pos_t.x()) < map_side_length_2
-                    && abs(local_map_ptr->points[left].y - pos_t.y()) < map_side_length_2
-                    && abs(local_map_ptr->points[left].z - pos_t.z()) < map_side_length_2)left++;
+                while (left < right &&
+                    abs(local_map_ptr->points[right].x - pos_t.x()) > map_side_length_2 ||
+                    abs(local_map_ptr->points[right].y - pos_t.y()) > map_side_length_2 ||
+                    abs(local_map_ptr->points[right].z - pos_t.z()) > map_side_length_2)
+                    right--;
+                while (left < right &&
+                    abs(local_map_ptr->points[left].x - pos_t.x()) < map_side_length_2 &&
+                    abs(local_map_ptr->points[left].y - pos_t.y()) < map_side_length_2 &&
+                    abs(local_map_ptr->points[left].z - pos_t.z()) < map_side_length_2)
+                    left++;
                 std::swap(local_map_ptr->points[left], local_map_ptr->points[right]);
             }
             local_map_ptr->resize(right + 1);//right是局部地图中最后一个要保留的点的索引

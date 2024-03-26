@@ -2,7 +2,8 @@
 
 namespace Slam
 {
-	IESKF::IESKF(const std::string& config_path, const std::string& prefix):ModuleBase(config_path,prefix,"IESKF")
+	IESKF::IESKF(const std::string& config_path, const std::string& prefix)
+		:ModuleBase(config_path,prefix,"IESKF")
 	{
 		P.setIdentity();
 		P(9, 9) = P(10, 10) = P(11, 11) = 0.0001;
@@ -14,10 +15,14 @@ namespace Slam
 		readParam("cov_bias_acceleration", cov_bias_acceleration, 0.1);
 		readParam("cov_bias_gyroscope", cov_bias_gyroscope, 0.1);
 
-		Q.block<3, 3>(0, 0).diagonal() = Eigen::Vector3d{ cov_gyroscope,cov_gyroscope,cov_gyroscope };
-		Q.block<3, 3>(3, 3).diagonal() = Eigen::Vector3d{ cov_acceleration,cov_acceleration,cov_acceleration };
-		Q.block<3, 3>(6, 6).diagonal() = Eigen::Vector3d{ cov_bias_gyroscope,cov_bias_gyroscope,cov_bias_gyroscope };
-		Q.block<3, 3>(9, 9).diagonal() = Eigen::Vector3d{ cov_bias_acceleration,cov_bias_acceleration,cov_bias_acceleration };
+		Q.block<3, 3>(0, 0).diagonal() = 
+			Eigen::Vector3d{ cov_gyroscope,cov_gyroscope,cov_gyroscope };
+		Q.block<3, 3>(3, 3).diagonal() = 
+			Eigen::Vector3d{ cov_acceleration,cov_acceleration,cov_acceleration };
+		Q.block<3, 3>(6, 6).diagonal() = 
+			Eigen::Vector3d{ cov_bias_gyroscope,cov_bias_gyroscope,cov_bias_gyroscope };
+		Q.block<3, 3>(9, 9).diagonal() = 
+			Eigen::Vector3d{ cov_bias_acceleration,cov_bias_acceleration,cov_bias_acceleration };
 		X.ba.setZero();
 		X.bg.setZero();
 		X.gravity.setZero();
@@ -38,7 +43,8 @@ namespace Slam
 		imu.gyroscope -= X.bg;
 		//状态递推
 		auto rotation = X.rotation.toRotationMatrix();
-		X.rotation = Eigen::Quaterniond(X.rotation.toRotationMatrix() * so3Exp((imu.gyroscope) * dt));
+		X.rotation = 
+			Eigen::Quaterniond(X.rotation.toRotationMatrix() * so3Exp((imu.gyroscope) * dt));
 		X.rotation.normalize();
 		X.position += X.velocity * dt;
 		X.velocity += (rotation * (imu.acceleration) + X.gravity) * dt;
@@ -88,8 +94,10 @@ namespace Slam
 			K = (H_kt * H_k + (P_in_update / 0.001).inverse()).inverse() * H_kt;
 			//计算x的增量
 			Eigen::MatrixXd left = -1 * K * z_k;
-			Eigen::MatrixXd right = -1 * (Eigen::Matrix<double, 18, 18>::Identity() - K * H_k) * J_inv * error_state;
+			Eigen::MatrixXd right = 
+				-1 * (Eigen::Matrix<double, 18, 18>::Identity() - K * H_k) * J_inv * error_state;
 			Eigen::MatrixXd update_x = left + right;
+
 			converge = true;
 			for (int idx = 0; idx < 18; idx++)
 			{
@@ -121,7 +129,8 @@ namespace Slam
 	{
 		Eigen::Matrix<double, 18, 1> es;
 		es.setZero();
-		es.block<3, 1>(0, 0) = SO3Log(s2.rotation.toRotationMatrix().transpose() * s1.rotation.toRotationMatrix());
+		es.block<3, 1>(0, 0) = 
+			SO3Log(s2.rotation.toRotationMatrix().transpose() * s1.rotation.toRotationMatrix());
 		es.block<3, 1>(3, 0) = s1.position - s2.position;
 		es.block<3, 1>(6, 0) = s1.velocity - s2.velocity;
 		es.block<3, 1>(9, 0) = s1.bg - s2.bg;
