@@ -6,7 +6,7 @@
 namespace Slam
 {
     //构造反对称矩阵
-	inline Eigen::Matrix3d skewSymmetric(const Eigen::Vector3d& so3) { 
+	static inline Eigen::Matrix3d skewSymmetric(const Eigen::Vector3d& so3) { 
         Eigen::Matrix3d so3_skew_sym;
         so3_skew_sym.setZero();//初始化
         so3_skew_sym(0, 1) = -1 * so3(2);
@@ -19,7 +19,7 @@ namespace Slam
     }
 
     //指数映射
-    Eigen::Matrix3d so3Exp(const Eigen::Vector3d& so3) {
+    static Eigen::Matrix3d so3Exp(const Eigen::Vector3d& so3) {
         Eigen::Matrix3d SO3;
         //计算so3向量的二范数，即模长
         double so3_norm = so3.norm();
@@ -35,14 +35,14 @@ namespace Slam
     }
 
     //对数映射
-    Eigen::Vector3d SO3Log(const Eigen::Matrix3d& SO3) {
+    static Eigen::Vector3d SO3Log(const Eigen::Matrix3d& SO3) {
         double theta = (SO3.trace() > 3 - 1e6) ? 0 : acos((SO3.trace() - 1) / 2);
         Eigen::Vector3d so3(SO3(2, 1) - SO3(1, 2), SO3(0, 2) - SO3(2, 0), SO3(1, 0) - SO3(0, 1));
         return fabs(theta) < 0.001 ? (0.5 * so3) : (0.5 * theta / sin(theta) * so3);
     }
 
     //构造旋转矩阵
-    Eigen::Matrix3d  A_T(const Eigen::Vector3d& v) {
+    static Eigen::Matrix3d  A_T(const Eigen::Vector3d& v) {
         Eigen::Matrix3d res;
         //计算v的模长
         double squaredNorm = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];

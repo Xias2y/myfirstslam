@@ -38,7 +38,7 @@ namespace ROSNoetic
 		local_map_pub = nh.advertise<sensor_msgs::PointCloud2>("local_map", 100);
 		run();
 	}
-	FrontEndWrapper::~FFrontEndWrapper()
+	FrontEndWrapper::~FrontEndWrapper()
 	{
 	}
 
@@ -81,10 +81,10 @@ namespace ROSNoetic
 		psd.pose.position.z = X.position.z();
 		path.poses.push_back(psd);
 		path_pub.publish(path);
-		IESKFSlam::PCLPointCloud cloud = front_end_ptr->readCurrentPointCloud();
+		Slam::PCLPointCloud cloud = front_end_ptr->readCurrentPointCloud();
 		pcl::transformPointCloud(
-			cloud, cloud, IESKFSlam::compositeTransform(X.rotation, X.position).cast<float>());
-		// auto cloud =front_end_ptr->readCurrentPointCloud();
+			cloud, cloud, Slam::compositeTransform(X.rotation, X.position).cast<float>());
+
 		sensor_msgs::PointCloud2 msg;
 		pcl::toROSMsg(cloud, msg);
 		msg.header.frame_id = "map";

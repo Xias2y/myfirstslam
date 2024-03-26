@@ -9,4 +9,4 @@ int main(int argc, char* argv[])//ros初始化
 	//创建了一个只能指针对象，初始化指向FrontEndWrapper
 	front_end_ptr = std::make_shared<ROSNoetic::FrontEndWrapper>(nh);
 	return 0;
-}}
+}
