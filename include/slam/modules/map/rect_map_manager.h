@@ -10,8 +10,8 @@ namespace Slam
 	class RectMapManager:private ModuleBase
 	{
 	public:
-		RectMapManager:private ModuleBase(const std::string& config_file_path, const std::string& prefix);
-		~RectMapManager:private ModuleBase();
+		RectMapManager(const std::string& config_file_path, const std::string& prefix);
+		~RectMapManager();
 		void reset();
 		void addScan(PCLPointCloudPtr curr_scan, const Eigen::Quaterniond& att_q, const Eigen::Vector3d& pos_t);
 		PCLPointCloudConstPtr getLocalMap();//读取局部地图

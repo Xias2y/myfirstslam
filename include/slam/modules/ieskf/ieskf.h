@@ -9,6 +9,7 @@ namespace Slam
     class IESKF:private ModuleBase
     {
     public:
+        using Ptr = std::shared_ptr<IESKF>;
         struct State18
         {
             Eigen::Quaterniond rotation;//Ðý×ª

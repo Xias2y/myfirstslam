@@ -74,7 +74,7 @@ namespace Slam
             voxel_filter.filter(*filter_point_cloud_ptr);
 
             ieskf_ptr->update();
-            auto x = ieskf_ptr->getX();
+            auto state = ieskf_ptr->getX();
 
             if (enable_record) {
                 record_file << std::setprecision(15) << mg.lidar_end_time << " "
@@ -83,7 +83,7 @@ namespace Slam
                     << state.rotation.y() << " " << state.rotation.z() << " "
                     << state.rotation.w() << std::endl;
             }
-            map_ptr->addScan(filter_point_cloud_ptr, x.rotation, x.position);
+            map_ptr->addScan(filter_point_cloud_ptr, state.rotation, state.position);
             return true;
         }
         return false;
@@ -143,7 +143,7 @@ namespace Slam
             return;
         }
 
-        for (size_t = 0; i < mg.imus.size(); i++)//遍历一帧内的所有imu
+        for (size_t i = 0; i < mg.imus.size(); i++)//遍历一帧内的所有imu
         {
             imu_count++;
             auto x = ieskf.getX();

@@ -6,7 +6,7 @@
 namespace Slam
 {
 	using VoxelFilter = pcl::VoxelGrid<Point>;//ÌåËØÂË²¨
-	using KDTree = pcl::KDTreeFLANN<Point>;//KDTree
+	using KDTree = pcl::KdTreeFLANN<Point>;//KDTree
 	using KDTreePtr = KDTree::Ptr;
 	using KDTreeConstPtr = KDTree::ConstPtr;
 
