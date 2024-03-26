@@ -63,4 +63,19 @@
  	PCL >= 1.8
 
   	Eigen >= 3.3.4
-	
+
+   	livox_ros_driver支持
+## 工程构建
+   	cd ~/$A_ROS_DIR$/src
+  	git clone https://github.com/Xias2y/myfirstslam.git
+ 	cd myfirstslam
+ 	git submodule update --init
+  	cd ../..
+  	source devel/setup.bash
+  	catkin_make
+   	 
+## 运行
+        roslaunch slam avia.launch
+   	rosbag play YOUR_DOWNLOADED.bag
+
+
